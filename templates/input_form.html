@@ -1,0 +1,22 @@
+<form method="POST" action="/request">
+    <h1>Gerador de certificados e clientes OpenVPN</h1>
+    <h2>Informações gerais</h2>
+    Nome do certificado:
+    <input name="certname" type="text" value="" /><br />
+    Host pfSense:
+    <input name="host" type="text" value="<PFSENSE_HOSTNAME>" /> <br />
+    Unidade:<br />
+    <input checked="checked" name="state" type="radio" value="<STATE1>" /> State 1 <br /> <input name="state"
+        type="radio" value="<STATE2>" /> State 2 <br />
+    Ações<br />
+    <input name="actions" checked="checked" type="radio" value="all" /> Gerar certificado e baixar cliente<br />
+    <input name="actions" type="radio" value="gen_only" /> Apenas gerar certificado<br />
+    <input name="actions" type="radio" value="dl_only" /> Apenas baixar cliente<br /><br />
+    <input type="submit" value="Enviar" />
+    <p style="color: red;">{{error}}</p>
+    <h2>Opções avançadas</h2><br />
+    <input name="force" type="checkbox" value="1" /> Força geração de certificado, mesmo que ele já exista (use com
+    cautela)<br /><br />
+    Servidor de certificado:
+    <input name="certserver" type="text" value="<CA_HOSTNAME>" /><br />
+</form>

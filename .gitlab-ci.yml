@@ -1,0 +1,40 @@
+stages:
+  - build
+
+variables:
+  DOCKER_HOST: tcp://localhost:2375 # tem que usar conexao TCP; nao permite mais usar o /var/run/docker.sock
+  DOCKER_TLS_CERTDIR: "" # desabilita uso de TLS
+  GL: "<REGISTRY_HOSTNAME>" # registry
+  IMG: "python/auto-cert-gen"
+  http_proxy: "http://<PROXY_HOSTNAME>:3128" # configuraco de proxy
+  https_proxy: "http://<PROXY_HOSTNAME>:3128" # configuraco de proxy
+  no_proxy: "<PROXY_EXCEPTION>" # configuracao de proxy
+  HTTP_PROXY: "http://<PROXY_HOSTNAME>:3128" # configuraco de proxy
+  HTTPS_PROXY: "http://<PROXY_HOSTNAME>:3128" # configuraco de proxy
+  NO_PROXY: "<PROXY_EXCEPTION>" # configuracao de proxy
+
+build_tag:
+  image: docker:19.03.1
+  stage: build
+  services:
+    - docker:19.03.1-dind
+  script:
+    - docker pull $GL/$IMG:latest || true
+    - docker build --cache-from $GL/$IMG:latest --tag $GL/$IMG:latest --tag $GL/$IMG:$CI_COMMIT_TAG --build-arg http_proxy --build-arg https_proxy --build-arg no_proxy .
+    - docker push $GL/$IMG:latest
+    - docker push $GL/$IMG:$CI_COMMIT_TAG # mantem historico de builds no registry
+  only:
+    - tags
+
+build_alpine:
+  image: docker:19.03.1
+  stage: build
+  services:
+    - docker:19.03.1-dind
+  script:
+    - docker pull $GL/$IMG:latest-alpine || true
+    - docker build --cache-from $GL/$IMG:latest-alpine --tag $GL/$IMG:latest-alpine --tag $GL/$IMG:${CI_COMMIT_TAG}-alpine --build-arg HTTP_PROXY --build-arg HTTPS_PROXY --build-arg NO_PROXY -f Dockerfile.alpine .
+    - docker push $GL/$IMG:latest-alpine
+    - docker push $GL/$IMG:${CI_COMMIT_TAG}-alpine # mantem historico de builds no registry
+  only:
+    - tags

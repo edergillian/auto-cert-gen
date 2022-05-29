@@ -1,0 +1,6 @@
+pfsense-fauxapi
+requests
+requests-ntlm
+paramiko
+scp
+flask

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>CreateVPN</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<body>
+    <nav class="navbar navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Gerador de certificados e clientes OpenVPN</a>
+        <a class="navbar-brand" href="#">Sair</a>
+    </nav>
+    <br /><br />
+    <div class="container">
+
+        <form method="POST" action="/request" class="border border-secondary">
+            <div class="form-group">
+                <br />
+                <h4 align="center">Informações gerais</h4>
+                <div class="form-group col-sm">
+                    <label>Nome do certificado:</label>
+                    <input name="certname" class="form-control" type="text" value="" /><br />
+                </div>
+
+                <div class="form-group col-sm">
+                    <label>Host pfSense:</label>
+                    <input name="host" class="form-control" type="text" value="<PFSENSE_HOSTNAME>" /> <br />
+                </div>
+                <div class="form-group col-sm">
+
+                    <label>Unidade:</label><br />
+                    <input checked="checked" name="state" type="radio" value="<STATE1>" /> State 1 <br />
+                    <input name="state" type="radio" value="<STATE2>" /> State 2 <br />
+
+                </div>
+                <div class="form-group col-sm">
+                    <label>Ações</label><br />
+                    <input name="actions" checked="checked" type="radio" value="all" /> Gerar certificado e baixar
+                    cliente<br />
+                    <input name="actions" type="radio" value="gen_only" /> Apenas gerar certificado<br />
+                    <input name="actions" type="radio" value="dl_only" /> Apenas baixar cliente<br /><br />
+                    <input type="submit" value="Enviar" />
+                    <p style="color: red;">{{error}}</p>
+                </div>
+                <p style="color: red;"></p>
+                <h4 align="center">Opções avançadas</h4><br />
+                <div class="form-group col-sm">
+                    <input name="force" type="checkbox" value="1" /> Força geração de certificado, mesmo que ele já
+                    exista (use com
+                    cautela)<br /><br />
+                    Servidor de certificado:
+                    <input name="certserver" type="text" value="<CA_HOSTNAME>" /><br />
+                </div>
+
+            </div>
+        </form>
+    </div>
+    <br>
+    <footer class="page-footer font-small blue bg-dark">
+
+        <!-- Copyright -->
+        <div class="footer-copyright text-center py-3 text-light">© 2020
+            <a href="#" class="text-light"> ORG </a>
+        </div>
+        <!-- Copyright -->
+
+    </footer>
+</body>
+
+</html>
